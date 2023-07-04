@@ -31,11 +31,23 @@ if __name__ == '__main__':
         chat_history = []
         while True: # chat.
             # Q:
-            q = input("Q:")
-            if q == 'EOF': # use EOF to signal a new chat!
+            print("Q:", end='')
+            new_chat = False
+            user_input = ''
+            while True:
+                input_str = input()
+                if input_str == 'EOS':
+                    break
+                if input_str == 'EOF':
+                    new_chat = True
+                    break
+                else:
+                    user_input += input_str
+
+            if new_chat: # use EOF to signal a new chat!
                 break
 
-            chat_history.append({"role":"user", "content":q})
+            chat_history.append({"role":"user", "content":user_input})
 
             completion = openai.ChatCompletion.create(
                 model="gpt-4",
